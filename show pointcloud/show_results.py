@@ -208,6 +208,8 @@ def project_and_color_pcd_distort(pcd, camera_matrix, dist_coeffs, transform_mat
 
     # 更新点云颜色
     pcd.colors = o3d.utility.Vector3dVector(colors)
+
+
 def get_undistort_image(image, camera_matrix, dist_coeffs):
     R = np.eye(3)
     # Project point cloud to image
@@ -217,6 +219,7 @@ def get_undistort_image(image, camera_matrix, dist_coeffs):
     undistort_image = cv2.remap(image, mapx, mapy, cv2.INTER_LINEAR, cv2.BORDER_CONSTANT)
 
     return undistort_image
+
 
 def save_colored_pcd(pcd, output_path):
     o3d.io.write_point_cloud(output_path, pcd, write_ascii=True)
@@ -234,16 +237,17 @@ def visualize_colored_point_cloud(file_path):
     # 可视化点云
     print("Displaying the colored point cloud...")
     o3d.visualization.draw_geometries([pcd], window_name="Colored Point Cloud", point_show_normal=True)
+
+
 # 主程序
 def main():
-    filename = '/Users/liuziyu/Downloads/image_distort/show pointcloud/hunter/config_hunter.yaml'  # Adjust path as needed
+    filename = 'D:\\pc_visualizer\\show pointcloud\\hunter\\config_hunter.yaml'  # Adjust path as needed
 
     # Load parameters
     transformMatrix_l2c, camera_matrix, dist_coeffs = read_camera_parameters_from_yaml(filename)
-    file_path = '/Users/liuziyu/Downloads/image_distort/show pointcloud/hunter/pose9_full.pcd'  # Adjust path as needed
-    image_path = '/Users/liuziyu/Downloads/image_distort/show pointcloud/hunter/pose9.png'  # Adjust path as needed
+    file_path = 'D:\\pc_visualizer\\show pointcloud\\hunter\\pose9_full.pcd'  # Adjust path as needed
+    image_path = 'D:\\pc_visualizer\\show pointcloud\\hunter\\pose9.png'  # Adjust path as needed
     output_path = 'colored_output.pcd'
-
 
     pcd = o3d.io.read_point_cloud(file_path)
     image = cv2.imread(image_path)
@@ -254,22 +258,20 @@ def main():
     undistort_image = get_undistort_image(image, camera_matrix, dist_coeffs)
     project_to_undistored_image(pcd, camera_matrix, transformMatrix_l2c, undistort_image)
 
-    distort_image = image[:]
+    distort_image = image.copy()
     image_pt = image.copy()
     distort_image_pt = image.copy()
 
     project_to_distored_image(pcd, camera_matrix, dist_coeffs, transformMatrix_l2c, distort_image)
-    cv2.imshow("image", image_pt)
     cv2.imshow("Projected on undistorted Image", undistort_image)
     cv2.imshow("Projected on distorted Image", distort_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     cv2.imwrite("projected_output.jpg", undistort_image)
 
-
-    # project_and_color_pcd_undistort(pcd, camera_matrix, transformMatrix_l2c, image_pt)
+    project_and_color_pcd_undistort(pcd, camera_matrix, transformMatrix_l2c, image_pt)
     # 保存着色后的点云
-    # save_colored_pcd(pcd, output_path)
+    save_colored_pcd(pcd, output_path)
 
     project_and_color_pcd_distort(pcd, camera_matrix, dist_coeffs, transformMatrix_l2c, distort_image_pt)
     # 保存着色后的点云
