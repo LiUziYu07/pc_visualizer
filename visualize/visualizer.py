@@ -3,55 +3,14 @@ import cv2
 import open3d as o3d
 import math
 
-import numpy as np
-import yaml
-from config import hunter_config
 from tools.undistort_image import get_undistort_image
 from tools.read_config import read_parameters_from_yaml
-from tools.coordinate_convert import get_transformation_pt
 
+from pc2image import project_pc_to_image
+from color2pc import project_and_color_pcd
+
+from config import hunter_config
 config = hunter_config
-
-
-# 将点云投影到图像平面并应用畸变
-def project_pc_to_image(pcd, camera_matrix, distort_coeffs, distort_type, transform_matrix, image):
-    points = np.asarray(pcd.points)
-    distances_info = []
-    for point in points:
-        dist_info = get_transformation_pt(camera_matrix, distort_coeffs, distort_type, transform_matrix, image.shape[1],
-                                          image.shape[0], point)
-        if dist_info:
-            distances_info.append(dist_info)
-
-    distances_info = np.array(distances_info)
-    min_dist, max_dist = distances_info[:, 2].min(), distances_info[:, 2].max()
-    for u_tmp, y_tmp, dist in distances_info:
-        rangie_idx = int(min(round(((dist - min_dist) / (max_dist - min_dist)) * 49), 49))
-        cv2.circle(image, (int(u_tmp), int(y_tmp)), 2, (
-            255 * config.COLOMAP[49 - rangie_idx][0], 255 * config.COLOMAP[49 - rangie_idx][1],
-            255 * config.COLOMAP[49 - rangie_idx][2]), -1)
-
-    return image
-
-
-def project_and_color_pcd(pcd, camera_matrix, distort_coeffs, distort_type, transform_matrix, image):
-    points = np.asarray(pcd.points)
-    colors = []
-
-    for point in points:
-        dist_info = get_transformation_pt(camera_matrix, distort_coeffs, distort_type, transform_matrix, image.shape[1],
-                                          image.shape[0], point)
-        if dist_info:
-            x, y, _ = dist_info
-            color = image[int(y), int(x)]  # 提取像素颜色
-            colors.append(color[::-1] / 255.0)  # BGR到RGB，归一化
-        else:
-            colors.append([0, 0, 0])  # 如果点超出图像范围，赋予黑色
-
-    # 更新点云颜色
-    pcd.colors = o3d.utility.Vector3dVector(colors)
-
-    return pcd
 
 
 def visualize_colored_point_cloud(pcd):
