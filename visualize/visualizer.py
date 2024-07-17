@@ -69,7 +69,6 @@ if __name__ == '__main__':
         raise FileNotFoundError(f"Failed to read image.{hunter_config.IMAGE_FILE_PATH}")
 
     undistort_image = get_undistort_image(image.copy(), camera_matrix, distort_coeffs, distort_type)
-
     point_to_image(pcd, camera_matrix, distort_coeffs, distort_type, transformMatrix_l2c, image, undistort_image)
 
     color_to_point(pcd, camera_matrix, distort_coeffs, distort_type, transformMatrix_l2c, image, undistort_image)

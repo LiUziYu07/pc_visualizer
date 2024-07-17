@@ -1,23 +1,47 @@
+#rotation:
+#  roll: -1.55895
+#  pitch: -0.00950
+#  yaw: 1.51890
+#
+#translation:
+#  x: 0.0673
+#  y: -0.08059
+#  z: -0.11117
+#
+#intrinsic_matrix:
+#  focal_length_x: 271.680314
+#  focal_length_y: 271.498122
+#  center_x: 404.254529
+#  center_y: 349.976248
+#  distort_type: fisheye
+#
+#distort_param:
+#  k1: -0.037968
+#  k2: -0.004817
+#  p1: -0.001300
+#  p2: -0.000273
+#
+
 rotation:
-  roll: -1.55895
-  pitch: -0.00950
-  yaw: 1.51890
+  roll: -1.538
+  pitch: 0
+  yaw: -3.14
 
 translation:
-  x: 0.0673
-  y: -0.08059
-  z: -0.11117
+  x: 0.35555
+  y: -0.06944
+  z: -0.12567
 
 intrinsic_matrix:
-  focal_length_x: 271.680314
-  focal_length_y: 271.498122
-  center_x: 404.254529
-  center_y: 349.976248
-  distort_type: fisheye
+  focal_length_x: 521.938
+  focal_length_y: 522.405
+  center_x: 445.247
+  center_y: 373.516
+  distort_type: non_fisheye
 
 distort_param:
-  k1: -0.037968
-  k2: -0.004817
-  p1: -0.001300
-  p2: -0.000273
+  k1: -0.070874
+  k2: 0.057968
+  p1: -0.001135
+  p2: 0.000292
 

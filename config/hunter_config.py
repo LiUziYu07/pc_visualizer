@@ -18,13 +18,13 @@ COLOMAP = [
 ]
 
 # CAMERA Param
-CAMERA_FILE_PATH = 'D:\\pc_visualizer\\data\hunter\\config_hunter.yaml'
+CAMERA_FILE_PATH = '/Users/liuziyu/Downloads/pc_visualizer/data/hunter/config_hunter.yaml'
 
 # PCD Param
-PCD_FILE_PATH = 'D:\\pc_visualizer\\data\\hunter\\pose9_full.pcd'
+PCD_FILE_PATH = '/Users/liuziyu/Downloads/pc_visualizer/data/hunter/pose6_full_front_right.pcd'
 
 # IMAGE Param
-IMAGE_FILE_PATH = 'D:\\pc_visualizer\\data\\hunter\\pose9.png'
+IMAGE_FILE_PATH = '/Users/liuziyu/Downloads/pc_visualizer/data/hunter/pose6_front_right.png'
 
 # OUTPUT Param
 OUTPUT_DISTORT_IMAGE_FILE_PATH = 'D:\\pc_visualizer\\output\\output_distort.jpg'
